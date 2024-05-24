@@ -83,7 +83,7 @@ public class TestCases {
     public static void printItemsWithDiscount(WebDriver driver, String searchQuery, int discountThreshold) {
     	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     	driver.get("https://www.flipkart.com");
-    	searchAndFilterItems(driver, searchQuery, "Popularity");
+    	searchItems(driver, searchQuery, "Popularity");
         List<WebElement> items = driver.findElements(By.xpath("//div[@class='_5OesEi'] "));
         for (WebElement item : items) {
             String title = item.findElement(By.xpath("//div[@class='KzDlHZ']")).getText();
