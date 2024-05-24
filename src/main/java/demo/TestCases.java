@@ -102,14 +102,14 @@ public class TestCases {
     	 WebElement searchBox = driver.findElement(By.name("q"));
          searchBox.sendKeys(searchQuery);
          searchBox.submit();
-         WebElement selectRating = driver.findElement(By.xpath("//div[contains(text(),'" + minRating + "★ & above')]"));
+         WebElement selectRating = driver.findElement(By.xpath("//div[@title='"+minRating+"★ & above']/div/label/div[1]"));
          ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectRating);
          selectRating.click();
          List<WebElement> items = driver.findElements(By.xpath("//div[@class='XQDdHH']"));
          for (int i = 0; i < count && i < items.size(); i++) {
         	 WebElement item = items.get(i);
-             String title = item.findElement(By.xpath(".//a[@class='wjcEIp']")).getText();
-             String imageUrl = item.findElement(By.xpath(".//img[@class='DByuf4']")).getAttribute("src");
+             String title = driver.findElement(By.xpath("/html/body/div/div/div[3]/div/div[2]/div[2]/div/div["+i+"]/div/a[2]")).getText();
+             String imageUrl = driver.findElement(By.xpath("/html/body/div/div/div[3]/div/div[2]/div[2]/div/div[\"+i+\"]/div/a[1]")).getAttribute("src");
              System.out.println("Title: " + title + ", Image URL: " + imageUrl);
         }
     }
