@@ -84,32 +84,37 @@ public class TestCases {
     	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     	driver.get("https://www.flipkart.com");
     	searchItems(driver, searchQuery, "Popularity");
-        List<WebElement> items = driver.findElements(By.xpath("//div[@class='_5OesEi'] "));
+
+        List<WebElement> items = driver.findElements(By.xpath("//div[@class='_75nlfW']"));
         for (WebElement item : items) {
-            String title = item.findElement(By.xpath("//div[@class='KzDlHZ']")).getText();
-            String discount = item.findElement(By.xpath("//div[@class='UkUFwK']")).getText();
-            int discountPercent = Integer.parseInt(discount.replace("% off", ""));
-            if (discountPercent > discountThreshold) {
-                System.out.println("Title: " + title + ", Discount: " + discount);
-            }
-        }
+          
+                WebElement titleElement = item.findElement(By.xpath("//div[@class='KzDlHZ']"));
+                WebElement discountElement = item.findElement(By.xpath("//div[@class='UkUFwK']"));
+                
+                String title = titleElement.getText();
+                String discount = discountElement.getText();
+                int discountPercent = Integer.parseInt(discount.replace("% off", ""));
+                
+                if (discountPercent > discountThreshold) {
+                    System.out.println("Title: " + title + ", Discount: " + discount);
     }
 
-  
+        }
+    }
     public static void printTopRatedItems(WebDriver driver, String searchQuery, int minRating, int count) {
     	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     	driver.get("https://www.flipkart.com");
     	 WebElement searchBox = driver.findElement(By.name("q"));
          searchBox.sendKeys(searchQuery);
          searchBox.submit();
-         WebElement selectRating = driver.findElement(By.xpath("//div[@title='"+minRating+"★ & above']/div/label/div[1]"));
-         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectRating);
+         WebElement selectRating = driver.findElement(By.xpath("//*[@id='container']/div/div[3]/div[1]/div[1]/div/div/div/section[5]/div[2]/div/div[1]/div/label/div[1]"));
+         //((JavascriptExecutor) driver).executeScript("arguments[0].click();", selectRating);
          selectRating.click();
          List<WebElement> items = driver.findElements(By.xpath("//div[@class='XQDdHH']"));
-         for (int i = 0; i < count && i < items.size(); i++) {
+         for (int i = 1; i < count && i < items.size(); i++) {
         	 WebElement item = items.get(i);
              String title = driver.findElement(By.xpath("/html/body/div/div/div[3]/div/div[2]/div[2]/div/div["+i+"]/div/a[2]")).getText();
-             String imageUrl = driver.findElement(By.xpath("/html/body/div/div/div[3]/div/div[2]/div[2]/div/div[\"+i+\"]/div/a[1]")).getAttribute("src");
+             String imageUrl = driver.findElement(By.xpath("/html/body/div/div/div[3]/div/div[2]/div[2]/div/div["+i+"]/div/a[1]")).getAttribute("href");
              System.out.println("Title: " + title + ", Image URL: " + imageUrl);
         }
     }
